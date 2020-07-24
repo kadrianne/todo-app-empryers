@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import TodoContainer from './components/TodoContainer'
+import TodoForm from './components/TodoForm'
 const todosUrl = "http://localhost:3000/todos"
 
 class App extends Component {
@@ -19,11 +20,35 @@ class App extends Component {
       .then(todos => this.setState({todos}))
   }
 
+  addTodo = (newTodo) => {
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    })
+
+    fetch(todosUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newTodo)
+    })
+  }
+
+  deleteTodo = (id) => {
+    let filtered = this.state.todos.filter(todo => todo.id !== id)
+    this.setState({
+      todos: filtered
+    })
+
+    fetch(todosUrl + "/" + id, { method: "DELETE" } )
+  }
+
   render(){
     return (
       <div className="App">
         <h1> Todo App </h1>
-        <TodoContainer todos={this.state.todos}/>
+        <TodoForm addTodo={this.addTodo}/>
+        <TodoContainer deleteTodo={this.deleteTodo} todos={this.state.todos}/>
       </div>
     );
   }
