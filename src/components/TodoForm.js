@@ -28,7 +28,7 @@ export default class TodoForm extends Component{
     handleChange = (event) => {
         let {name, value, checked} = event.target
 
-        value = (name === "urgent") || (name === "done")   ? checked : value
+        value = (name === "urgent" || "done") ? checked : value
 
         this.setState({
             [name]: value 
@@ -36,10 +36,11 @@ export default class TodoForm extends Component{
     }
 
     handleSubmit = (event) => {
+        let {submitAction, handleToggle} = this.props
         event.preventDefault()
-        this.props.submitAction(this.state)
-        if(this.props.handleToggle){
-            this.props.handleToggle()
+        submitAction(this.state)
+        if(handleToggle){
+            handleToggle()
         }
     }
 
