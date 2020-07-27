@@ -6,7 +6,7 @@ body {
   text-align: center;
 }
 
-.todo-form{
+.todo-form, .signup-form {
   display: flex;
   flex-direction: column;
   width: 300px;
